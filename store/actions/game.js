@@ -53,3 +53,10 @@ export function gameComplete() {
     type: actionType.COMPLETE
   };
 }
+
+export function setHighScore(score) {
+  return {
+    type: actionType.SET_SCORE,
+    score
+  };
+}

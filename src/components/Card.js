@@ -1,65 +1,73 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, Image, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  ImageBackground,
+  TouchableOpacity
+} from "react-native";
 // import "../css/Card.css";
-import Img from "../assets/back.jpg";
+import backgroudImgCard from "../assets/back.jpg";
 
 const styles = StyleSheet.create({
-  card: {
-    position: "relative",
-    display: "flex",
-    width: 80,
-    height: 80,
-    marginTop: 6
+  cardFront: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    borderRadius: 13,
+    borderWidth: 1
+  },
+  cardBackMatched: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    borderRadius: 13,
+    borderWidth: 1,
+    backgroundColor: "#239a63",
+    zIndex: 1
+  },
+  cardBack: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    borderRadius: 13,
+    borderWidth: 1,
+    backgroundColor: "white",
+    zIndex: 1
   }
 });
 
 class Card extends Component {
+  handleClickFlipCard() {
+    if (!this.props.isLocked) {
+      this.props.flipCard(this.props.index, this.props.card.cardName);
+    }
+  }
+
   render() {
     return (
-      <View style={styles.card}>
-        {/* <ImageBackground
-          style={{ width: "100%", height: "100%" }}
-          source={Img}
-        /> */}
+      <TouchableOpacity
+        style={{ width: "100%", height: "100%" }}
+        onPress={this.handleClickFlipCard.bind(this)}
+      >
+        <ImageBackground style={styles.cardFront} source={backgroudImgCard} />
+
         <Image
-          style={{ width: "100%", height: "100%" }}
-          source={this.props.img}
+          style={
+            this.props.card.matched ? styles.cardBackMatched : styles.cardBack
+          }
+          source={this.props.card.img}
         />
-      </View>
+      </TouchableOpacity>
     );
   }
 }
-
-// class Card extends Component {
-//   handleClickFlipCard() {
-//     if (!this.props.isLocked) {
-//       this.props.flipCard(this.props.index, this.props.card.cardName);
-//     }
-//   }
-
-//   render() {
-//     let cardFrontStyle = {
-//       backgroundImage: `url(${backgroudImgCard})`,
-//       backgroundPosition: "center",
-//       backgroundRepeat: "no-repeat",
-//       backgroundSize: "cover"
-//     };
-
-//     let cardMatched = this.props.card.matched ? "cardBack_matched" : "cardBack";
-
-//     return (
-//       <div onClick={this.handleClickFlipCard.bind(this)}>
-//         <div className="cardFront" style={cardFrontStyle}>
-//           <span className="gameNameOn">?</span>
-//         </div>
-//         <img
-//           className={cardMatched}
-//           src={this.props.card.img}
-//           alt={this.props.cardName}
-//         />
-//       </div>
-//     );
-//   }
-// }
 
 export default Card;

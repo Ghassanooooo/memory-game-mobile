@@ -9,7 +9,10 @@ const INITIAL_STATE = {
   gameOn: false,
   isLocked: false,
   isCompleted: false,
-  show: true
+  show: true,
+  scoreOn: false,
+  score: 0,
+  highestScore: 0
 };
 
 export default function game(state = INITIAL_STATE, action) {
@@ -33,7 +36,7 @@ export default function game(state = INITIAL_STATE, action) {
       return {
         ...state,
         show: false,
-
+        score: 0,
         cards: state.cards.map((card, i) =>
           i === action.card[0] ? { ...card, flipped: true } : card
         )
@@ -43,6 +46,8 @@ export default function game(state = INITIAL_STATE, action) {
       return {
         ...state,
         isCompleted: false,
+        score: 0,
+        scoreOn: true,
         gameOn: true,
         cards: state.cards.map((card, i) => {
           return {
@@ -76,7 +81,7 @@ export default function game(state = INITIAL_STATE, action) {
       if (selectedCards[0].cardName === selectedCards[1].cardName) {
         return {
           ...state,
-
+          score: state.score + 40,
           isLocked: false,
           cards: state.cards.map(card =>
             card.cardName === selectedCards[0].cardName
@@ -87,6 +92,7 @@ export default function game(state = INITIAL_STATE, action) {
       } else if (selectedCards[0].cardName !== selectedCards[1].cardName) {
         return {
           ...state,
+          score: state.score - 10,
           isLocked: false,
           cards: state.cards.map(card =>
             card.cardName === selectedCards[0].cardName ||
@@ -102,6 +108,13 @@ export default function game(state = INITIAL_STATE, action) {
         ...state,
         isCompleted: true
       };
+    case actionType.SET_SCORE:
+      if (state.highestScore < action.score) {
+        return {
+          ...state,
+          highestScore: action.score
+        };
+      } else return state;
     default:
       return state;
   }

@@ -6,5 +6,6 @@ export {
   flipCard,
   lockCard,
   matchCard,
-  gameComplete
+  gameComplete,
+  setHighScore
 } from "./game";

@@ -1,154 +1,155 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, Image, ImageBackground } from "react-native";
+import backgroudImgCard from "../assets/back.jpg";
 import Card from "../components/Card";
 import genCards from "../data/generateCards";
-
-// import { Button, Text } from "native-base";
-
-// import { Card } from "../components";
-
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+
 import * as actions from "../../store/actions";
-// import "../css/GameBoard.css";
-
-// import matchSound from "../../assets/matchSound.wav";
-// import ReactAudioPlayer from "react-audio-player";
-
-// class GameBoard extends Component {
-//   componentDidUpdate() {
-//     //show cards on random when start/reset button clicked
-//     if (this.props.show) {
-//       let indexArray = [...Array(this.props.cards.length).keys()];
-//       for (let i = 0; i < this.props.cards.length; i++) {
-//         let randomNumber = Math.floor(Math.random() * indexArray.length);
-//         let selected = indexArray.splice(randomNumber, 1);
-//         setTimeout(() => {
-//           this.props.showCard(selected);
-//         }, 100 + i * 130);
-//       }
-//       setTimeout(() => {
-//         this.props.hideCard();
-//       }, 4000);
-//     }
-//     //put flipped cards into an array and pass them to reducers
-//     let flippedCard = [];
-//     if (this.props.gameOn) {
-//       flippedCard = this.props.cards.filter(card => {
-//         return card.flipped === true && card.matched === false;
-//       });
-//     }
-//     if (flippedCard.length === 2) {
-//       this.props.lockCard();
-//       if (this.props.isLocked) {
-//         setTimeout(() => {
-//           this.props.matchCard(flippedCard);
-//           flippedCard = [];
-//         }, 500);
-//       }
-//     }
-//     let complete = this.props.cards.filter(card => {
-//       return card.flipped === true && card.matched === true;
-//     });
-//     if (complete.length === this.props.cards.length) {
-//       this.props.gameComplete();
-//       setTimeout(() => {
-//         this.props.gameId
-//           ? this.props.startCustomGame(this.props.gameId)
-//           : this.props.startGame();
-//       }, 2600);
-//     }
-//   }
-//   handleImageLoaded = () => {
-//     this.props.pageLoading();
-//   };
-//   render() {
-//     console.log("WTFFFFFFFFFFFFFFFFFFFFFFFFFFFf", this.props.gameSize); //
-//     // this.props.gameImgsData.gameImgsData &&  console.log('the new array data', this.props.gameImgsData.gameImgsData.gamesize * 2)
-//     let cardsList = [];
-//     let initialCards = [];
-//     let cardsItems = (this.props.gameSize && this.props.gameSize * 2) || 16;
-//     //initial card background
-//     // let cardsItems =
-//     //   (this.props.gameImgsData.gameImgsData &&
-//     //     this.props.gameImgsData.gameImgsData.gamesize * 2) ||
-//     //   16;
-//     for (let i = 0; i < cardsItems; i++) {
-//       initialCards.push(
-//         <div key={i} className="initialCardsWrapper">
-//           <img
-//             style={{ width: "100%", height: "100%" }}
-//             className="backgroundImg"
-//             // onLoad={this.handleImageLoaded.bind(this)}
-//             //    src={this.props.gameId ? backgroudImgCard : backgroudImgCard}
-//             src={
-//               this.props.gameId
-//                 ? " https://i.pinimg.com/originals/58/17/85/581785ed38d3e41c25a22163c845abec.jpg"
-//                 : " https://i.pinimg.com/originals/58/17/85/581785ed38d3e41c25a22163c845abec.jpg"
-//             }
-//             alt="backgroudImg"
-//           />
-//         </div>
-//       );
-//     }
-//     //generate cards
-//     let cards = this.props.cards;
-//     cards = cards.map((card, i) => {
-//       return (
-//         <div className={card.flipped ? "card_active" : "card"} key={i}>
-//           {card.matched && !this.props.isCompleted && (
-//             <ReactAudioPlayer src={matchSound} autoPlay />
-//           )}
-//           <Card
-//             index={i}
-//             card={card}
-//             isLocked={this.props.isLocked}
-//             flipCard={this.props.flipCard}
-//             lockCard={this.props.lockCard}
-//             matchCard={this.props.matchCard}
-//           />
-//         </div>
-//       );
-//     });
-//     //If this.props.isStarting === true, show generated cards
-//     cardsList = this.props.isStarting ? cards : initialCards;
-//     let gameBoardComplete = this.props.isCompleted
-//       ? "gameBoard_complete"
-//       : "gameBoard";
-//     return (
-//       <div className={gameBoardComplete}>
-//         <div className="cardsWrapper disappear">{cardsList}</div>
-//         <div className="gameBoardBack" />
-//       </div>
-//     );
-//   }
-
-// }
 
 class GameBoard extends Component {
+  componentDidUpdate() {
+    if (this.props.show) {
+      let indexArray = [...Array(this.props.cards.length).keys()];
+      for (let i = 0; i < this.props.cards.length; i++) {
+        let randomNumber = Math.floor(Math.random() * indexArray.length);
+        let selected = indexArray.splice(randomNumber, 1);
+        setTimeout(() => {
+          this.props.showCard(selected);
+        }, 100 + i * 130);
+      }
+      setTimeout(() => {
+        this.props.hideCard();
+      }, 4000);
+    }
+    //put flipped cards into an array and pass them to reducers
+    let flippedCard = [];
+    if (this.props.gameOn) {
+      flippedCard = this.props.cards.filter(card => {
+        return card.flipped === true && card.matched === false;
+      });
+    }
+    if (flippedCard.length === 2) {
+      this.props.lockCard();
+      if (this.props.isLocked) {
+        setTimeout(() => {
+          this.props.matchCard(flippedCard);
+          flippedCard = [];
+        }, 500);
+      }
+    }
+    let complete = this.props.cards.filter(card => {
+      return card.flipped === true && card.matched === true;
+    });
+    if (complete.length === this.props.cards.length) {
+      this.props.gameComplete();
+      setTimeout(() => {
+        this.props.startGame();
+      }, 2600);
+    }
+  }
+  handleImageLoaded = () => {
+    this.props.pageLoading();
+  };
   render() {
-    let cardPass = genCards();
+    let cardsList = [];
+    let initialCards = [];
+    let cardsItems = 16;
+    for (let i = 0; i < cardsItems; i++) {
+      initialCards.push(
+        <View key={i} style={styles.initialCardsWrapper}>
+          <Image
+            style={{ width: "100%", height: "100%" }}
+            onLoad={this.handleImageLoaded.bind(this)}
+            source={backgroudImgCard}
+          />
+        </View>
+      );
+    }
+    //generate cards
+    let cards = this.props.cards;
+    cards = cards.map((card, i) => {
+      return (
+        <View style={card.flipped ? styles.cardActive : styles.card} key={i}>
+          <Card
+            index={i}
+            card={card}
+            isLocked={this.props.isLocked}
+            flipCard={this.props.flipCard}
+            lockCard={this.props.lockCard}
+            matchCard={this.props.matchCard}
+          />
+        </View>
+      );
+    });
+    //If this.props.isStarting === true, show generated cards
+    cardsList = this.props.isStarting ? cards : initialCards;
     return (
-      <View style={styles.gameBoard}>
-        {cardPass.map(i => (
-          <Card img={i.img} />
-        ))}
+      <View>
+        <View
+          style={
+            this.props.isCompleted ? styles.gameBoardComplete : styles.gameBoard
+          }
+        >
+          {cardsList}
+        </View>
+        <View style={styles.gameBoardBack} />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  gameBoard: {
+  cardsWrapper: {
+    flexDirection: "row",
+    alignItems: "flex-start"
+  },
+  initialCardsWrapper: {
+    position: "relative",
+    width: 80,
+    height: 80,
+    borderRadius: 7,
+    borderWidth: 1
+  },
+  cardActive: {
+    position: "relative",
+    width: 80,
+    height: 80,
+    borderRadius: 13
+  },
+  card: {
+    position: "relative",
+    width: 80,
+    height: 80,
+    borderRadius: 13,
+    marginLeft: 2,
+    marginRight: 2
+  },
+  gameBoardComplete: {
     height: "80%",
     textAlign: "center",
-    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative"
+  },
+  gameBoard: {
+    marginTop: 20,
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
     flexWrap: "wrap",
     position: "relative"
+  },
+  gameBoardBack: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "white"
   }
 });
 
@@ -172,4 +173,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(GameBoard);
-// export default GameBoard;
