@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as actions from "../../store/actions";
+// import SoundPlayer from "react-native-sound";
 import {
   StyleSheet,
   View,
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
     color: "white"
   }
 });
+
 class ScoreBoard extends Component {
   componentDidUpdate() {
     this.props.setHighScore(this.props.score);
